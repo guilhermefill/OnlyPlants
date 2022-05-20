@@ -1,9 +1,14 @@
 const { Schema, model } = require('mongoose');
+const random = require('mongoose-simple-random');
 
 const postSchema = new Schema(
 	{
-		image: { type: 'string', required: true },
-		plantType: String,
+		imageUrl: {
+			type: String,
+		},
+		plantType: {
+			type: String,
+		},
 		description: String,
 		creator: { type: Schema.Types.ObjectId, ref: 'User' },
 		likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
@@ -14,6 +19,8 @@ const postSchema = new Schema(
 	}
 );
 
+postSchema.plugin(random);
+postSchema.index({ '$**': 'text' });
 const Post = model('Post', postSchema);
 
 module.exports = Post;

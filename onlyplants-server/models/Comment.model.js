@@ -1,8 +1,11 @@
 const { Schema, model } = require('mongoose');
 
-const postSchema = new Schema(
+const commentSchema = new Schema(
 	{
-		comment: { type: 'string', required: true },
+		comment: {
+			type: String,
+			required: true,
+		},
 		owner: { type: Schema.Types.ObjectId, ref: 'User' },
 		post: { type: Schema.Types.ObjectId, ref: 'Post' },
 	},
@@ -11,6 +14,7 @@ const postSchema = new Schema(
 	}
 );
 
-const Post = model('Post', postSchema);
+commentSchema.index({ '$**': 'text' });
+const Comment = model('Comment', commentSchema);
 
-module.exports = Post;
+module.exports = Comment;
